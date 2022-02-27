@@ -259,6 +259,15 @@ function s:IsBlock()
 endfunction
 
 function GetTypescriptIndent()
+  if line('$') > 50000
+    return 0
+  endif
+  if line('$') > 10000
+    return cindent(v:lnum)
+  endif
+  if line('$') > 3000
+    return cindent(prevnonblank(v:lnum - 1))
+  endif
   let b:js_cache = get(b:,'js_cache',[0,0,0])
   " Get the current line.
   call cursor(v:lnum,1)
